@@ -3,134 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEEP CONNECT</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Gestión de Profesores - CEEP CONNECT</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .bg-primary {
+            background-color: #283553 !important;
+        }
+        footer {
+            background-color: #283553;
+            color: white;
+        }
+        .navbar {
+            padding: 0.5rem 1rem;
+        }
+        .navbar-nav {
+            margin: auto;
+        }
+        .info-container {
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .info-container h3 {
+            color: #283553;
+
+        }
+        .btn-primary {
+            background-color: #283553 !important;
+            border-color: #283553 !important;
+        }
+        .btn-primary:hover {
+            background-color: #1d2a43 !important;
+        }
+        .btn-warning {
+            background-color: #ffc107 !important;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800 !important;
+        }
+        .btn-danger {
+            background-color: #dc3545 !important;
+        }
+        .btn-danger:hover {
+            background-color: #a71d2a !important;
+        }
+        .table-container {
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .table-container h2 {
+            color: #283553;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        table th, table td {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar">
-        <h1>CEEP CONNECT</h1>
-        <div>
-            <button onclick="toggleTheme()">Tema Oscuro</button>
-            <button>Cerrar Sesión</button>
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+        <a class="navbar-brand d-flex align-items-center" href="home.html">
+            <img src="images/logo-ceep.png" alt="Logo CEEP" width="50" height="50">
+        </a>
+        <div class="collapse navbar-collapse justify-content-center">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="home.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="Modulo_Estudiantes/estudiantes.html">Estudiantes</a></li>
+                <li class="nav-item"><a class="nav-link active" href="profesores.html">Profesores</a></li>
+                <li class="nav-item"><a class="nav-link" href="calificaciones.html">Calificaciones</a></li>
+                <li class="nav-item"><a class="nav-link" href="materias.html">Materias</a></li>
+            </ul>
         </div>
+    </nav>
+    <div class="container info-container mt-4">
+        <h3>Gestión de Profesores</h3>
     </div>
 
-    <div class="sidebar">
-        <h2>Menú</h2>
-        <a href="#estudiantes">Estudiantes</a>
-        <a href="profesores.html">Profesores</a>
-        <div class="submenu">
-            <a href="#calificaciones">Calificaciones</a>
-            <a href="#asistencia">Asistencia</a>
-        </div>
-        <a href="#materias">Materias</a>
+    <div class="container text-right mb-3">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#professorModal" onclick="prepararAgregar()">Registrar Profesor</button>
     </div>
-    
 
-    <div class="content" style="max-width: 800px; margin: auto; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
-        <h2 style="text-align: center; color: #4CAF50; font-size: 24px; margin-bottom: 20px;">Lista de Profesores</h2>
-        
-        <!-- Barra de búsqueda y botón de agregar profesor -->
-        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <input type="text" placeholder="Buscar profesor..." style="flex: 1; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 5px;">
-            <button id="addProfessorBtn" style="margin-left: 10px; padding: 10px 15px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
-                Agregar Profesor
-            </button>
-        </div>
-        
-        <!-- Tabla de profesores -->
-        <table id="professorTable" style="width: 100%; border-collapse: collapse; font-size: 16px;">
+    <div class="container table-container">
+        <h2>Lista de Profesores</h2>
+        <table id="professorTable" class="table table-striped">
             <thead>
-                <tr style="background-color: #4CAF50; color: white;">
-                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">ID</th>
-                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Nombre</th>
-                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Apellido</th>
-                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Correo</th>
-                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Cursos</th>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Cursos</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr style="background-color: #f9f9f9;">
+                <tr>
                     <td>001</td>
                     <td>Juan</td>
                     <td>Pérez</td>
                     <td>juan.perez@escuela.edu</td>
                     <td>Matemáticas, Física</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editarProfesor(this)" data-toggle="modal" data-target="#professorModal">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarProfesor(this)">Eliminar</button>
+                    </td>
                 </tr>
-                <!-- Agrega más filas según sea necesario -->
             </tbody>
         </table>
     </div>
-    
-    <!-- Modal para agregar profesor -->
-    <div id="professorModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
-        <div style="background-color: #ffffff; width: 400px; padding: 20px; margin: 10% auto; border-radius: 10px;">
-            <h3>Agregar Profesor</h3>
-            <label>ID:</label>
-            <input type="text" id="professorId" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-            <label>Nombre:</label>
-            <input type="text" id="professorName" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-            <label>Apellido:</label>
-            <input type="text" id="professorLastName" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-            <label>Correo:</label>
-            <input type="email" id="professorEmail" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-            <label>Cursos:</label>
-            <input type="text" id="professorCourses" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-            <button onclick="addProfessor()" style="padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Agregar</button>
-            <button onclick="closeModal()" style="padding: 10px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Cancelar</button>
+
+    <footer class="text-center py-4 mt-5">
+        <p>© 2024 CEEP CONNECT. Todos los derechos reservados.</p>
+    </footer>
+
+    <div id="professorModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Profesor</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="profesorForm">
+                        <div class="form-group">
+                            <label>ID:</label>
+                            <input type="text" id="professorId" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" id="professorName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido:</label>
+                            <input type="text" id="professorLastName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Correo:</label>
+                            <input type="email" id="professorEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cursos:</label>
+                            <input type="text" id="professorCourses" class="form-control" required>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" onclick="guardarProfesor()">Guardar</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <script>
-        // Función para mostrar el modal
-        document.getElementById("addProfessorBtn").onclick = function() {
-            document.getElementById("professorModal").style.display = "block";
-        }
-    
-        // Función para cerrar el modal
-        function closeModal() {
-            document.getElementById("professorModal").style.display = "none";
-        }
-    
-        // Función para agregar un profesor a la tabla
-        function addProfessor() {
-            // Obtener valores de los campos de entrada
-            var id = document.getElementById("professorId").value;
-            var name = document.getElementById("professorName").value;
-            var lastName = document.getElementById("professorLastName").value;
-            var email = document.getElementById("professorEmail").value;
-            var courses = document.getElementById("professorCourses").value;
-    
-            // Crear una nueva fila
-            var table = document.getElementById("professorTable").getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow();
-    
-            newRow.innerHTML = `
-                <td>${id}</td>
-                <td>${name}</td>
-                <td>${lastName}</td>
-                <td>${email}</td>
-                <td>${courses}</td>
-            `;
-    
-            // Cerrar el modal y limpiar los campos de entrada
-            closeModal();
-            document.getElementById("professorId").value = '';
-            document.getElementById("professorName").value = '';
-            document.getElementById("professorLastName").value = '';
-            document.getElementById("professorEmail").value = '';
-            document.getElementById("professorCourses").value = '';
-        }
-    </script>
-    
-    
-    
 
     <script>
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
+        let filaSeleccionada = null;
+
+        function prepararAgregar() {
+            filaSeleccionada = null;
+            document.getElementById('profesorForm').reset();
+            document.querySelector('.modal-title').textContent = 'Registrar Profesor';
+        }
+
+        function editarProfesor(button) {
+            filaSeleccionada = button.closest('tr');
+            const celdas = filaSeleccionada.getElementsByTagName('td');
+            document.getElementById('professorId').value = celdas[0].textContent;
+            document.getElementById('professorName').value = celdas[1].textContent;
+            document.getElementById('professorLastName').value = celdas[2].textContent;
+            document.getElementById('professorEmail').value = celdas[3].textContent;
+            document.getElementById('professorCourses').value = celdas[4].textContent;
+            document.querySelector('.modal-title').textContent = 'Editar Profesor';
+        }
+
+        function guardarProfesor() {
+            const id = document.getElementById('professorId').value;
+            const name = document.getElementById('professorName').value;
+            const lastName = document.getElementById('professorLastName').value;
+            const email = document.getElementById('professorEmail').value;
+            const courses = document.getElementById('professorCourses').value;
+
+            if (filaSeleccionada) {
+                const celdas = filaSeleccionada.getElementsByTagName('td');
+                celdas[0].textContent = id;
+                celdas[1].textContent = name;
+                celdas[2].textContent = lastName;
+                celdas[3].textContent = email;
+                celdas[4].textContent = courses;
+                filaSeleccionada = null;
+            } else {
+                const table = document.querySelector('#professorTable tbody');
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${id}</td>
+                    <td>${name}</td>
+                    <td>${lastName}</td>
+                    <td>${email}</td>
+                    <td>${courses}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editarProfesor(this)" data-toggle="modal" data-target="#professorModal">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarProfesor(this)">Eliminar</button>
+                    </td>
+                `;
+            }
+
+            document.getElementById('profesorForm').reset();
+            $('#professorModal').modal('hide');
+        }
+
+        function eliminarProfesor(button) {
+            button.closest('tr').remove();
         }
     </script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

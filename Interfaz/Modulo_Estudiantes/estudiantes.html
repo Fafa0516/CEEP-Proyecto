@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Estudiantes - CEEP CONNECT</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .bg-primary {
+            background-color: #283553 !important;
+        }
+        footer {
+            background-color: #283553;
+            color: white;
+        }
+        .navbar {
+            padding: 0.5rem 1rem;
+        }
+        .navbar-nav {
+            margin: auto;
+        }
+        .info-container {
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .info-container h3 {
+            color: #283553;
+        }
+        .btn-primary {
+            background-color: #283553 !important;
+            border-color: #283553 !important;
+        }
+        .btn-primary:hover {
+            background-color: #1d2a43 !important;
+        }
+        .btn-warning {
+            background-color: #ffc107 !important;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800 !important;
+        }
+        .btn-danger {
+            background-color: #dc3545 !important;
+        }
+        .btn-danger:hover {
+            background-color: #a71d2a !important;
+        }
+        .table-container {
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .table-container h2 {
+            color: #283553;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        table th, table td {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+        <a class="navbar-brand d-flex align-items-center" href="../home.html">
+            <img src="../images/logo-ceep.png" alt="Logo CEEP" width="50" height="50">
+        </a>
+        <div class="collapse navbar-collapse justify-content-center">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../home.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link active" href="estudiantes.html">Estudiantes</a></li>
+                <li class="nav-item"><a class="nav-link" href="../profesores.html">Profesores</a></li>
+                <li class="nav-item"><a class="nav-link" href="../calificaciones.html">Calificaciones</a></li>
+                <li class="nav-item"><a class="nav-link" href="../materias.html">Materias</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container info-container mt-4">
+        <h3>Gestión de Estudiantes</h3>
+    </div>
+
+    <div class="container text-right mb-3">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#studentModal" onclick="prepararAgregar()">Registrar Estudiante</button>
+    </div>
+
+    <div class="container table-container">
+        <h2>Lista de Estudiantes</h2>
+        <table id="studentTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Grado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>María</td>
+                    <td>González</td>
+                    <td>maria.gonzalez@escuela.edu</td>
+                    <td>10</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editarEstudiante(this)" data-toggle="modal" data-target="#studentModal">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarEstudiante(this)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="text-center py-4 mt-5">
+        <p>© 2024 CEEP CONNECT. Todos los derechos reservados.</p>
+    </footer>
+
+    <div id="studentModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Estudiante</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="studentForm">
+                        <div class="form-group">
+                            <label>ID:</label>
+                            <input type="text" id="studentId" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" id="studentName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido:</label>
+                            <input type="text" id="studentLastName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Correo:</label>
+                            <input type="email" id="studentEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Grado:</label>
+                            <input type="text" id="studentGrade" class="form-control" required>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" onclick="guardarEstudiante()">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let filaSeleccionada = null;
+
+        function prepararAgregar() {
+            filaSeleccionada = null;
+            document.getElementById('studentForm').reset();
+            document.querySelector('.modal-title').textContent = 'Registrar Estudiante';
+        }
+
+        function editarEstudiante(button) {
+            filaSeleccionada = button.closest('tr');
+            const celdas = filaSeleccionada.getElementsByTagName('td');
+            document.getElementById('studentId').value = celdas[0].textContent;
+            document.getElementById('studentName').value = celdas[1].textContent;
+            document.getElementById('studentLastName').value = celdas[2].textContent;
+            document.getElementById('studentEmail').value = celdas[3].textContent;
+            document.getElementById('studentGrade').value = celdas[4].textContent;
+            document.querySelector('.modal-title').textContent = 'Editar Estudiante';
+        }
+
+        function guardarEstudiante() {
+            const id = document.getElementById('studentId').value;
+            const name = document.getElementById('studentName').value;
+            const lastName = document.getElementById('studentLastName').value;
+            const email = document.getElementById('studentEmail').value;
+            const grade = document.getElementById('studentGrade').value;
+
+            if (filaSeleccionada) {
+                const celdas = filaSeleccionada.getElementsByTagName('td');
+                celdas[0].textContent = id;
+                celdas[1].textContent = name;
+                celdas[2].textContent = lastName;
+                celdas[3].textContent = email;
+                celdas[4].textContent = grade;
+                filaSeleccionada = null;
+            } else {
+                const table = document.querySelector('#studentTable tbody');
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${id}</td>
+                    <td>${name}</td>
+                    <td>${lastName}</td>
+                    <td>${email}</td>
+                    <td>${grade}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editarEstudiante(this)" data-toggle="modal" data-target="#studentModal">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarEstudiante(this)">Eliminar</button>
+                    </td>
+                `;
+            }
+
+            document.getElementById('studentForm').reset();
+            $('#studentModal').modal('hide');
+        }
+
+        function eliminarEstudiante(button) {
+            button.closest('tr').remove();
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
